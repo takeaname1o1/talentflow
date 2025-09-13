@@ -1,0 +1,12 @@
+{
+  "name": "talentflow-api",
+  "version": "1.0.0",
+  "description": "Azure Functions for TalentFlow",
+  "scripts": {
+    "build": "echo 'API build complete'",
+    "start": "func start"
+  },
+  "dependencies": {
+    "@azure/functions": "^4.0.0"
+  }
+}

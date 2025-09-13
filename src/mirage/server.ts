@@ -38,6 +38,12 @@ interface ResponseData {
 }
 
 export function makeServer({ environment = "development" } = {}) {
+    // Don't run MirageJS in production
+    if (import.meta.env.PROD) {
+        console.log('MirageJS disabled in production');
+        return null;
+    }
+
     return createServer({
         environment,
 
@@ -180,4 +186,10 @@ export function makeServer({ environment = "development" } = {}) {
             // Add similar endpoints for assessments, timelines, and responses
         },
     });
+}
+
+// Only start the server in development
+if (import.meta.env.DEV) {
+    makeServer({ environment: "development" });
+    console.log('MirageJS server started in development mode');
 }
