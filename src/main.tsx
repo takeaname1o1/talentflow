@@ -1,14 +1,19 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.tsx'
-import { makeServer } from './mirage/server.ts'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import App from './App.tsx';
+import './index.css';
+import { makeServer } from "./mirage/server";
+import { seedDatabase } from './mirage/seed';
 
-// Always start the MirageJS server
-makeServer();
+// Conditionally start the MirageJS server and seed the database
+// only when the app is running in development mode.
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
+  makeServer();
+  seedDatabase();
+
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
     <App />
-  </StrictMode>,
-)
+  </React.StrictMode>,
+);

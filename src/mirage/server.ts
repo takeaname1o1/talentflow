@@ -1,94 +1,20 @@
-import { createServer, Model, Response } from "miragejs";
+import { createServer, Response } from "miragejs";
 import { db } from "./dexie";
-
-// Define types for better TypeScript support
-interface Job {
-    id: string;
-    title: string;
-    description?: string;
-    status?: string;
-}
-
-interface Candidate {
-    id: string;
-    name: string;
-    email?: string;
-    phone?: string;
-}
-
-interface Assessment {
-    id: string;
-    jobId: string;
-    title: string;
-    questions?: any[];
-}
-
-interface Timeline {
-    id: string;
-    jobId: string;
-    stage: string;
-    timestamp: Date;
-}
-
-interface ResponseData {
-    id: string;
-    candidateId: string;
-    assessmentId: string;
-    answers: any[];
-}
+import { seedDatabase } from "./seed";
 
 export function makeServer() {
+    // Seed database on server start
+    seedDatabase();
+
     return createServer({
-
-
-        models: {
-            job: Model.extend<Partial<Job>>({}),
-            candidate: Model.extend<Partial<Candidate>>({}),
-            assessment: Model.extend<Partial<Assessment>>({}),
-            timeline: Model.extend<Partial<Timeline>>({}),
-            response: Model.extend<Partial<ResponseData>>({}),
-        },
-
-        seeds(server) {
-            // Seed initial data
-            server.create("job", {
-                id: "1",
-                title: "Frontend Developer",
-                description: "Develop user interfaces using React and TypeScript",
-                status: "open",
-            });
-            server.create("job", {
-                id: "2",
-                title: "Backend Developer",
-                description: "Build scalable APIs and services",
-                status: "open",
-            });
-
-            server.create("candidate", {
-                id: "1",
-                name: "Alice Johnson",
-                email: "alice@example.com",
-                phone: "555-1234",
-            });
-            server.create("candidate", {
-                id: "2",
-                name: "Bob Smith",
-                email: "bob@example.com",
-                phone: "555-5678",
-            });
-        },
-
         routes() {
             this.namespace = "api";
-
-            // Simulate network latency (200-1200ms)
             this.timing = Math.floor(200 + Math.random() * 1000);
 
-            // --- Jobs Endpoints ---
+            // Jobs endpoints
             this.get("/jobs", async () => {
                 try {
-                    const jobs = await db.jobs.toArray();
-                    return jobs;
+                    return await db.jobs.toArray();
                 } catch (error) {
                     return new Response(500, {}, { error: "Failed to fetch jobs" });
                 }
@@ -97,11 +23,9 @@ export function makeServer() {
             this.post("/jobs", async (_schema, request) => {
                 try {
                     const attrs = JSON.parse(request.requestBody);
-
                     if (Math.random() < 0.07) {
                         return new Response(500, {}, { error: "Random server error" });
                     }
-
                     await db.jobs.add(attrs);
                     return attrs;
                 } catch (error) {
@@ -113,7 +37,7 @@ export function makeServer() {
                 try {
                     const id = request.params.id;
                     const attrs = JSON.parse(request.requestBody);
-
+                    
                     if (Math.random() < 0.07) {
                         return new Response(500, {}, { error: "Random server error" });
                     }
@@ -121,9 +45,7 @@ export function makeServer() {
                     await db.jobs.update(id, attrs);
                     const updatedJob = await db.jobs.get(id);
 
-                    return updatedJob
-                        ? updatedJob
-                        : new Response(404, {}, { error: "Job not found" });
+                    return updatedJob || new Response(404, {}, { error: "Job not found" });
                 } catch (error) {
                     return new Response(500, {}, { error: "Failed to update job" });
                 }
@@ -133,17 +55,16 @@ export function makeServer() {
                 try {
                     const id = request.params.id;
                     await db.jobs.delete(id);
-                    return new Response(204); // No Content
+                    return new Response(204);
                 } catch (error) {
                     return new Response(500, {}, { error: "Failed to delete job" });
                 }
             });
 
-            // --- Candidates Endpoints ---
+            // Candidates endpoints
             this.get("/candidates", async () => {
                 try {
-                    const candidates = await db.candidates.toArray();
-                    return candidates;
+                    return await db.candidates.toArray();
                 } catch (error) {
                     return new Response(500, {}, { error: "Failed to fetch candidates" });
                 }
@@ -152,11 +73,9 @@ export function makeServer() {
             this.post("/candidates", async (_schema, request) => {
                 try {
                     const attrs = JSON.parse(request.requestBody);
-
                     if (Math.random() < 0.07) {
                         return new Response(500, {}, { error: "Random server error" });
                     }
-
                     await db.candidates.add(attrs);
                     return attrs;
                 } catch (error) {
@@ -164,7 +83,7 @@ export function makeServer() {
                 }
             });
 
-            // TODO: Add similar endpoints for assessments, timelines, and responses
+            // Add similar endpoints for other entities (assessments, timelines, responses)
         },
     });
 }
