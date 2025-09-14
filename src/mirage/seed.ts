@@ -17,10 +17,10 @@ export async function seedDatabase() {
         // Generate Jobs
         const jobs = Array.from({ length: 600 }, () => {
             const title = faker.helpers.arrayElement([
-                'Frontend Developer', 'Backend Engineer', 'Full Stack Developer', 
+                'Frontend Developer', 'Backend Engineer', 'Full Stack Developer',
                 'Product Manager', 'UX/UI Designer', 'Data Scientist'
             ]);
-            
+
             return {
                 id: faker.string.uuid(),
                 title,
@@ -36,7 +36,7 @@ export async function seedDatabase() {
         const candidates = Array.from({ length: 50 }, () => {
             const firstName = faker.person.firstName();
             const lastName = faker.person.lastName();
-            
+
             return {
                 id: faker.string.uuid(),
                 name: `${firstName} ${lastName}`,
@@ -51,7 +51,7 @@ export async function seedDatabase() {
         // Generate Assessments
         const assessments = jobs.flatMap(job => {
             if (job.status !== 'open') return [];
-            
+
             return Array.from({ length: faker.number.int({ min: 1, max: 2 }) }, () => ({
                 id: faker.string.uuid(),
                 jobId: job.id,
@@ -65,25 +65,42 @@ export async function seedDatabase() {
             }));
         });
         await db.assessments.bulkAdd(assessments);
+        interface Timeline {
+            id: string;
+            jobId: string;
+            candidateId: string;
+            stage: string;
+            notes: string;
+            timestamp: Date;
+        }
+
+        interface Response {
+            id: string;
+            candidateId: string;
+            assessmentId: string;
+            answers: Record<string, any>[];
+            submittedAt: Date;
+            score: number;
+        }
 
         // Generate Timelines and Responses
-        const timelines = [];
-        const responses = [];
+        const timelines: Timeline[] = [];
+        const responses: Response[] = [];
         const hiringStages = ['Applied', 'Screening', 'Assessment', 'Interview', 'Offer', 'Hired', 'Rejected'];
 
         candidates.forEach(candidate => {
             const appliedJobs = faker.helpers.arrayElements(
-                jobs.filter(j => j.status === 'open'), 
+                jobs.filter(j => j.status === 'open'),
                 { min: 1, max: 2 }
             );
 
             appliedJobs.forEach(job => {
                 let currentTimestamp = candidate.appliedDate!;
                 const maxStageIndex = faker.number.int({ min: 0, max: hiringStages.length - 1 });
-                
+
                 for (let i = 0; i <= maxStageIndex; i++) {
                     const stage = hiringStages[i];
-                    
+
                     timelines.push({
                         id: faker.string.uuid(),
                         jobId: job.id,
