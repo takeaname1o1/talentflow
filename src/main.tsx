@@ -4,10 +4,8 @@ import './index.css'
 import App from './App.tsx'
 import { makeServer } from './mirage/server.ts'
 
-// Start MirageJS server in development mode
-if (import.meta.env.MODE === 'development') {
-  makeServer({ environment: 'development' });
-}
+// Always start the MirageJS server
+makeServer();
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

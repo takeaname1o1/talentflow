@@ -38,12 +38,6 @@ interface ResponseData {
 }
 
 export function makeServer({ environment = "development" } = {}) {
-    // Don't run MirageJS in production
-    if (import.meta.env.PROD) {
-        console.log('MirageJS disabled in production');
-        return null;
-    }
-
     return createServer({
         environment,
 
@@ -90,7 +84,7 @@ export function makeServer({ environment = "development" } = {}) {
             // Simulate network latency (200-1200ms)
             this.timing = Math.floor(200 + Math.random() * 1000);
 
-            // Jobs endpoints
+            // --- Jobs Endpoints ---
             this.get("/jobs", async () => {
                 try {
                     const jobs = await db.jobs.toArray();
@@ -100,17 +94,12 @@ export function makeServer({ environment = "development" } = {}) {
                 }
             });
 
-            this.post("/jobs", async (schema, request) => {
+            this.post("/jobs", async (_schema, request) => {
                 try {
                     const attrs = JSON.parse(request.requestBody);
 
-                    // Simulate random server errors (7% chance)
                     if (Math.random() < 0.07) {
-                        return new Response(
-                            500,
-                            {},
-                            { error: "Random server error occurred" }
-                        );
+                        return new Response(500, {}, { error: "Random server error" });
                     }
 
                     await db.jobs.add(attrs);
@@ -120,41 +109,37 @@ export function makeServer({ environment = "development" } = {}) {
                 }
             });
 
-            this.patch("/jobs/:id", async (schema, request) => {
+            this.patch("/jobs/:id", async (_schema, request) => {
                 try {
                     const id = request.params.id;
                     const attrs = JSON.parse(request.requestBody);
 
-                    // Simulate random server errors
                     if (Math.random() < 0.07) {
-                        return new Response(
-                            500,
-                            {},
-                            { error: "Random server error occurred" }
-                        );
+                        return new Response(500, {}, { error: "Random server error" });
                     }
 
                     await db.jobs.update(id, attrs);
                     const updatedJob = await db.jobs.get(id);
-                    return (
-                        updatedJob || new Response(404, {}, { error: "Job not found" })
-                    );
+
+                    return updatedJob
+                        ? updatedJob
+                        : new Response(404, {}, { error: "Job not found" });
                 } catch (error) {
                     return new Response(500, {}, { error: "Failed to update job" });
                 }
             });
 
-            this.delete("/jobs/:id", async (schema, request) => {
+            this.delete("/jobs/:id", async (_schema, request) => {
                 try {
                     const id = request.params.id;
                     await db.jobs.delete(id);
-                    return new Response(204);
+                    return new Response(204); // No Content
                 } catch (error) {
                     return new Response(500, {}, { error: "Failed to delete job" });
                 }
             });
 
-            // Candidates endpoints
+            // --- Candidates Endpoints ---
             this.get("/candidates", async () => {
                 try {
                     const candidates = await db.candidates.toArray();
@@ -164,16 +149,12 @@ export function makeServer({ environment = "development" } = {}) {
                 }
             });
 
-            this.post("/candidates", async (schema, request) => {
+            this.post("/candidates", async (_schema, request) => {
                 try {
                     const attrs = JSON.parse(request.requestBody);
 
                     if (Math.random() < 0.07) {
-                        return new Response(
-                            500,
-                            {},
-                            { error: "Random server error occurred" }
-                        );
+                        return new Response(500, {}, { error: "Random server error" });
                     }
 
                     await db.candidates.add(attrs);
@@ -183,13 +164,7 @@ export function makeServer({ environment = "development" } = {}) {
                 }
             });
 
-            // Add similar endpoints for assessments, timelines, and responses
+            // TODO: Add similar endpoints for assessments, timelines, and responses
         },
     });
-}
-
-// Only start the server in development
-if (import.meta.env.DEV) {
-    makeServer({ environment: "development" });
-    console.log('MirageJS server started in development mode');
 }

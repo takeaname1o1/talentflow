@@ -8,7 +8,9 @@
       "run": "npm run dev",
       "appDevserverUrl": "http://localhost:5173",
       "apiLocation": "api",
-      "apiBuildCommand": "echo 'No API build needed for mock'"
+      "apiBuildCommand": "echo 'No API build needed for mock'",
+      "appName": "talentflow",
+      "resourceGroup": "talentflow-rg"
     }
   }
 }
