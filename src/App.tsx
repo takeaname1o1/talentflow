@@ -15,17 +15,18 @@ const CurrentUrlDisplay = () => {
   const [currentUrl, setCurrentUrl] = useState('');
 
   useEffect(() => {
-    setCurrentUrl(`${window.location.origin}${location.pathname}${location.search}`);
+    // Show only path and query parameters (more relevant for routing)
+    setCurrentUrl(`${location.pathname}${location.search}${location.hash}`);
   }, [location]);
 
   return (
     <div className="current-url-display">
-      <strong>Current URL:</strong>
+      <strong>Current Route:</strong>
       <code>{currentUrl}</code>
       <button 
-        onClick={() => navigator.clipboard.writeText(currentUrl)}
+        onClick={() => navigator.clipboard.writeText(window.location.href)}
         className="copy-url-btn"
-        title="Copy URL to clipboard"
+        title="Copy full URL to clipboard"
       >
         📋
       </button>
@@ -38,7 +39,7 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <header className="App-header">
-          <h1>TalentFlow - Development Mode</h1>
+          <h1>TalentFlow - Test Mode</h1>
           <p>Mock API with Local Persistence (IndexedDB)</p>
           
           {/* Display current URL */}

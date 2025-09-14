@@ -37,9 +37,9 @@ interface ResponseData {
     answers: any[];
 }
 
-export function makeServer({ environment = "development" } = {}) {
+export function makeServer() {
     return createServer({
-        environment,
+
 
         models: {
             job: Model.extend<Partial<Job>>({}),
