@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
 import TestFetch from './components/TestFetch';
 import JobsPage from './pages/JobsPage';
@@ -7,6 +7,31 @@ import CandidatesPage from './pages/CandidatesPage';
 import CandidateDetailPage from './pages/CandidateDetailPage';
 import AssessmentsPage from './pages/AssessmentsPage';
 import NotFoundPage from './pages/NotFoundPage';
+import { useEffect, useState } from 'react';
+
+// Component to display current URL
+const CurrentUrlDisplay = () => {
+  const location = useLocation();
+  const [currentUrl, setCurrentUrl] = useState('');
+
+  useEffect(() => {
+    setCurrentUrl(`${window.location.origin}${location.pathname}${location.search}`);
+  }, [location]);
+
+  return (
+    <div className="current-url-display">
+      <strong>Current URL:</strong>
+      <code>{currentUrl}</code>
+      <button 
+        onClick={() => navigator.clipboard.writeText(currentUrl)}
+        className="copy-url-btn"
+        title="Copy URL to clipboard"
+      >
+        📋
+      </button>
+    </div>
+  );
+};
 
 function App() {
   return (
@@ -15,6 +40,9 @@ function App() {
         <header className="App-header">
           <h1>TalentFlow - Development Mode</h1>
           <p>Mock API with Local Persistence (IndexedDB)</p>
+          
+          {/* Display current URL */}
+          <CurrentUrlDisplay />
           
           {/* Navigation Buttons */}
           <nav className="navigation-buttons">
