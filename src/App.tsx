@@ -15,7 +15,6 @@ const CurrentUrlDisplay = () => {
   const [currentUrl, setCurrentUrl] = useState('');
 
   useEffect(() => {
-    // Show only path and query parameters (more relevant for routing)
     setCurrentUrl(`${location.pathname}${location.search}${location.hash}`);
   }, [location]);
 
@@ -23,7 +22,7 @@ const CurrentUrlDisplay = () => {
     <div className="current-url-display">
       <strong>Current Route:</strong>
       <code>{currentUrl}</code>
-      <button 
+      <button
         onClick={() => navigator.clipboard.writeText(window.location.href)}
         className="copy-url-btn"
         title="Copy full URL to clipboard"
@@ -34,18 +33,71 @@ const CurrentUrlDisplay = () => {
   );
 };
 
+// New component for the countdown timer
+// New component for the countdown timer
+const CountdownTimer = () => {
+  useEffect(() => {
+    const scriptId = 'tickcounter-sdk';
+    if (document.getElementById(scriptId)) return;
+
+    const script = document.createElement('script');
+    script.id = scriptId;
+    script.src = "//www.tickcounter.com/static/js/loader.js";
+    script.async = true;
+    document.body.appendChild(script);
+
+    // This is the cleanup function that runs when the component unmounts
+    return () => {
+      const existingScript = document.getElementById(scriptId);
+      // ✅ FIX: Use the variable by uncommenting this block
+      if (existingScript) {
+        // This is good practice to prevent memory leaks if the component unmounts
+        existingScript.remove();
+      }
+    };
+  }, []); // Empty dependency array ensures this effect runs only once
+
+  return (
+    <div className="countdown-container">
+      <a
+        data-type="countdown"
+        data-id="8137274"
+        className="tickcounter"
+        style={{
+          display: 'block',
+          left: 0,
+          width: '100%',
+          height: 0,
+          position: 'relative',
+          paddingBottom: '25%',
+          margin: '0 auto'
+        }}
+        title="Submission"
+        href="//www.tickcounter.com/"
+      >
+        Submission
+      </a>
+    </div>
+  );
+};
+
+
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <header className="App-header">
-          <h1>TalentFlow - Test Mode</h1>
-          <p>Mock API with Local Persistence (IndexedDB)</p>
+          {/* Timer is now first for semantic clarity, but CSS will position it */}
+          <CountdownTimer />
+
+          {/* Wrapper for centered title content */}
+          <div className="header-content">
+            <h1>TalentFlow - Test Mode</h1>
+            <p>Mock API with Local Persistence (IndexedDB)</p>
+          </div>
           
-          {/* Display current URL */}
           <CurrentUrlDisplay />
           
-          {/* Navigation Buttons */}
           <nav className="navigation-buttons">
             <Link to="/" className="nav-button">
               <button>Home (Test Fetch)</button>
