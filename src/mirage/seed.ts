@@ -1,6 +1,16 @@
 import { faker } from '@faker-js/faker';
 import { db } from './dexie';
 
+function sleep(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function maybeThrowError(probability: number) {
+    if (Math.random() < probability) {
+        throw new Error('Simulated random failure');
+    }
+}
+
 export async function seedDatabase() {
     try {
         console.log("🌱 Starting database seeding...");
@@ -14,26 +24,30 @@ export async function seedDatabase() {
             db.responses.clear(),
         ]);
 
-        // Generate Jobs
-        const jobs = Array.from({ length: 600 }, () => {
-            const title = faker.helpers.arrayElement([
-                'Frontend Developer', 'Backend Engineer', 'Full Stack Developer',
-                'Product Manager', 'UX/UI Designer', 'Data Scientist'
-            ]);
+        await sleep(faker.number.int({ min: 200, max: 1200 }));
+        maybeThrowError(faker.number.float({ min: 0.05, max: 0.1 }));
 
-            return {
-                id: faker.string.uuid(),
-                title,
-                description: faker.lorem.paragraphs(2),
-                status: faker.helpers.arrayElement(['open', 'closed', 'paused']),
-                createdAt: faker.date.past({ years: 1 }),
-                updatedAt: new Date(),
-            };
-        });
+        // Generate Jobs
+        const jobTitles = [
+            'Frontend Developer', 'Backend Engineer', 'Full Stack Developer',
+            'Product Manager', 'UX/UI Designer', 'Data Scientist'
+        ];
+
+        const jobs = Array.from({ length: 25 }, () => ({
+            id: faker.string.uuid(),
+            title: faker.helpers.arrayElement(jobTitles),
+            description: faker.lorem.paragraphs(2),
+            status: faker.helpers.arrayElement(['open', 'closed', 'paused']),
+            createdAt: faker.date.past({ years: 1 }),
+            updatedAt: new Date(),
+        }));
+
+        await sleep(faker.number.int({ min: 200, max: 1200 }));
+        maybeThrowError(faker.number.float({ min: 0.05, max: 0.1 }));
         await db.jobs.bulkAdd(jobs);
 
         // Generate Candidates
-        const candidates = Array.from({ length: 50 }, () => {
+        const candidates = Array.from({ length: 1000 }, () => {
             const firstName = faker.person.firstName();
             const lastName = faker.person.lastName();
 
@@ -46,53 +60,34 @@ export async function seedDatabase() {
                 appliedDate: faker.date.recent({ days: 60 }),
             };
         });
+
+        await sleep(faker.number.int({ min: 200, max: 1200 }));
+        maybeThrowError(faker.number.float({ min: 0.05, max: 0.1 }));
         await db.candidates.bulkAdd(candidates);
 
-        // Generate Assessments
-        const assessments = jobs.flatMap(job => {
-            if (job.status !== 'open') return [];
+        // Generate Assessments (at least 3 with 10+ questions)
+        const assessments = jobs.slice(0, 3).map(job => ({
+            id: faker.string.uuid(),
+            jobId: job.id,
+            title: `${job.title} Skill Test`,
+            description: `Assessment for ${job.title} position`,
+            questions: Array.from({ length: 12 }, () => ({
+                type: faker.helpers.arrayElement(['multiple-choice', 'coding-challenge']),
+                text: faker.lorem.sentence(),
+            })),
+            createdAt: job.createdAt,
+        }));
 
-            return Array.from({ length: faker.number.int({ min: 1, max: 2 }) }, () => ({
-                id: faker.string.uuid(),
-                jobId: job.id,
-                title: `${job.title} Skill Test`,
-                description: `Assessment for ${job.title} position`,
-                questions: [
-                    { type: 'multiple-choice', text: faker.lorem.sentence() },
-                    { type: 'coding-challenge', text: 'Implement a function to reverse a string.' }
-                ],
-                createdAt: job.createdAt,
-            }));
-        });
+        await sleep(faker.number.int({ min: 200, max: 1200 }));
+        maybeThrowError(faker.number.float({ min: 0.05, max: 0.1 }));
         await db.assessments.bulkAdd(assessments);
-        interface Timeline {
-            id: string;
-            jobId: string;
-            candidateId: string;
-            stage: string;
-            notes: string;
-            timestamp: Date;
-        }
-
-        interface Response {
-            id: string;
-            candidateId: string;
-            assessmentId: string;
-            answers: Record<string, any>[];
-            submittedAt: Date;
-            score: number;
-        }
 
         // Generate Timelines and Responses
-        const timelines: Timeline[] = [];
-        const responses: Response[] = [];
+        interface Timeline { id: string; jobId: string; candidateId: string; stage: string; notes: string; timestamp: Date; } interface Response { id: string; candidateId: string; assessmentId: string; answers: Record<string, any>[]; submittedAt: Date; score: number; } // Generate Timelines and Responses const timelines: Timeline[] = []; const responses: Response[] = [];
         const hiringStages = ['Applied', 'Screening', 'Assessment', 'Interview', 'Offer', 'Hired', 'Rejected'];
 
         candidates.forEach(candidate => {
-            const appliedJobs = faker.helpers.arrayElements(
-                jobs.filter(j => j.status === 'open'),
-                { min: 1, max: 2 }
-            );
+            const appliedJobs = faker.helpers.arrayElements(jobs, { min: 1, max: 2 });
 
             appliedJobs.forEach(job => {
                 let currentTimestamp = candidate.appliedDate!;
@@ -117,7 +112,7 @@ export async function seedDatabase() {
                                 id: faker.string.uuid(),
                                 candidateId: candidate.id,
                                 assessmentId: assessment.id,
-                                answers: [{ q1: 'A', q2: 'function reverse(s){...}' }],
+                                answers: assessment.questions.map((q, idx) => ({ [`q${idx + 1}`]: 'Sample answer' })),
                                 submittedAt: faker.date.soon({ days: 2, refDate: currentTimestamp }),
                                 score: faker.number.int({ min: 65, max: 98 }),
                             });
@@ -129,7 +124,12 @@ export async function seedDatabase() {
             });
         });
 
+        await sleep(faker.number.int({ min: 200, max: 1200 }));
+        maybeThrowError(faker.number.float({ min: 0.05, max: 0.1 }));
         await db.timelines.bulkAdd(timelines);
+
+        await sleep(faker.number.int({ min: 200, max: 1200 }));
+        maybeThrowError(faker.number.float({ min: 0.05, max: 0.1 }));
         await db.responses.bulkAdd(responses);
 
         console.log("✅ Database seeded successfully!");

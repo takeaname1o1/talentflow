@@ -13,5 +13,5 @@ fi
 echo "Starting Vite development server..."
 npm run dev
 
-open http://localhost:5173
-open  https://white-bay-05017551e-preview.westus2.2.azurestaticapps.net
+#open http://localhost:5173
+#open  https://white-bay-05017551e-preview.westus2.2.azurestaticapps.net
