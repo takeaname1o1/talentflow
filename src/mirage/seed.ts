@@ -13,6 +13,17 @@ function maybeThrowError(probability: number) {
 
 export async function seedDatabase() {
     try {
+        console.log("🌱 Checking if database needs seeding...");
+
+        const jobCount = await db.jobs.count();
+        const candidateCount = await db.candidates.count();
+        const assessmentCount = await db.assessments.count();
+
+        if (jobCount > 0 || candidateCount > 0 || assessmentCount > 0) {
+            console.log("⚠️ Skipping seeding: database already contains data.");
+            return;
+        }
+
         console.log("🌱 Starting database seeding...");
 
         // Clear existing data

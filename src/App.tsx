@@ -95,41 +95,72 @@ function App() {
             <h1>TalentFlow - Test Mode</h1>
             <p>Mock API with Local Persistence (IndexedDB)</p>
           </div>
-          
+
           <CurrentUrlDisplay />
-          
+
           <nav className="navigation-buttons">
             <Link to="/" className="nav-button">
-              <button>Home (Test Fetch)</button>
+              <button>🏠 Home (Test Fetch)</button>
             </Link>
             <Link to="/jobs" className="nav-button">
-              <button>Jobs Page</button>
+              <button>📋 Jobs</button>
             </Link>
             <Link to="/candidates" className="nav-button">
-              <button>Candidates Page</button>
+              <button>🧑‍💼 Candidates</button>
             </Link>
+
+            {/* Assessments by Job ID */}
             <Link to="/assessments/456" className="nav-button">
-              <button>Assessments (Job ID: 456)</button>
+              <button>📝 Assessments for Job 456</button>
             </Link>
+            <Link to="/assessments/789" className="nav-button">
+              <button>📝 Assessments for Job 789</button>
+            </Link>
+            <Link to="/assessments/000" className="nav-button">
+              <button>📝 Assessments for Nonexistent Job</button>
+            </Link>
+
+            {/* Optional: All assessments view */}
+            <Link to="/assessments" className="nav-button">
+              <button>📊 All Assessments (if supported)</button>
+            </Link>
+
+            {/* Job and Candidate Detail */}
+            <Link to="/jobs/456" className="nav-button">
+              <button>🔍 View Job 456</button>
+            </Link>
+            <Link to="/candidates/123" className="nav-button">
+              <button>🔎 View Candidate 123</button>
+            </Link>
+
+            {/* 404 Test */}
             <Link to="/invalid-route" className="nav-button">
-              <button>Test 404 Page</button>
+              <button>🚫 Test 404 Page</button>
             </Link>
           </nav>
+
+
+
         </header>
         <main>
           <Routes>
-            <Route path="/" element={
-              <div>
-                <TestFetch />
-              </div>
-            } />
+            {/* Home */}
+            <Route path="/" element={<TestFetch />} />
+
+            {/* Jobs */}
             <Route path="/jobs" element={<JobsPage />} />
             <Route path="/jobs/:jobId" element={<JobDetailPage />} />
+
+            {/* Candidates */}
             <Route path="/candidates" element={<CandidatesPage />} />
             <Route path="/candidates/:id" element={<CandidateDetailPage />} />
-            <Route path="/assessments/:jobId" element={<AssessmentsPage />} />
+
+            {/* Assessments */}
+            <Route path="/assessments/" element={<AssessmentsPage />} />
+            {/* Fallback */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
+
         </main>
       </div>
     </BrowserRouter>

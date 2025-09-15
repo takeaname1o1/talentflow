@@ -102,6 +102,16 @@ export function makeServer() {
                 }
             });
 
+
+            this.get("/assessments", async () => {
+  try {
+    return await db.assessments.toArray();
+  } catch (error) {
+    return new Response(500, {}, { error: "Failed to fetch assessments" });
+  }
+});
+
+
             this.post("/candidates", async (_schema, request) => {
                 try {
                     const attrs = JSON.parse(request.requestBody);
@@ -114,6 +124,65 @@ export function makeServer() {
                     return new Response(500, {}, { error: "Failed to create candidate" });
                 }
             });
+
+            this.get("/assessments/:id", async (_schema, request) => {
+                try {
+                    const id = request.params.id;
+                    const assessment = await db.assessments.get(id);
+
+                    if (!assessment) {
+                        return new Response(404, {}, { error: "Assessment not found" });
+                    }
+
+                    return assessment;
+                } catch (error) {
+                    return new Response(500, {}, { error: "Failed to fetch assessment" });
+                }
+            });
+
+            this.post("/assessments", async (_schema, request) => {
+                try {
+                    const attrs = JSON.parse(request.requestBody);
+                    if (Math.random() < 0.07) {
+                        return new Response(500, {}, { error: "Random server error" });
+                    }
+                    await db.assessments.add(attrs);
+                    return attrs;
+                } catch (error) {
+                    return new Response(500, {}, { error: "Failed to create assessment" });
+                }
+            });
+
+            this.patch("/assessments/:id", async (_schema, request) => {
+                try {
+                    const id = request.params.id;
+                    const attrs = JSON.parse(request.requestBody);
+
+                    if (Math.random() < 0.07) {
+                        return new Response(500, {}, { error: "Random server error" });
+                    }
+
+                    await db.assessments.update(id, attrs);
+                    const updated = await db.assessments.get(id);
+
+                    return updated || new Response(404, {}, { error: "Assessment not found" });
+                } catch (error) {
+                    return new Response(500, {}, { error: "Failed to update assessment" });
+                }
+            });
+
+            this.delete("/assessments/:id", async (_schema, request) => {
+                try {
+                    const id = request.params.id;
+                    await db.assessments.delete(id);
+                    return new Response(204);
+                } catch (error) {
+                    return new Response(500, {}, { error: "Failed to delete assessment" });
+                }
+            });
+
+
+
 
             // Add similar endpoints for other entities (assessments, timelines, responses)
         },
