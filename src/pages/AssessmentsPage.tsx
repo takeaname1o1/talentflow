@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import styles from './CandidatesPage.module.css';
+import styles from './JobsPage.module.css'
 
 export interface Assessment {
   id: string;
