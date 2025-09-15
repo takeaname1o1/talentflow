@@ -13,12 +13,15 @@
     "swa:deploy": "swa deploy"
   },
   "dependencies": {
+    "@faker-js/faker": "^10.0.0",
+    "@nivo/bar": "^0.99.0",
+    "@nivo/pie": "^0.99.0",
     "dexie": "^4.2.0",
     "miragejs": "^0.1.48",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
-    "@faker-js/faker": "^10.0.0",
-    "react-router-dom": "^7.9.1"
+    "react-router-dom": "^7.9.1",
+    "recharts": "^3.2.0"
   },
   "devDependencies": {
     "@azure/functions": "^4.0.0",

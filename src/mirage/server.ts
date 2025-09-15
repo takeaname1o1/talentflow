@@ -104,12 +104,12 @@ export function makeServer() {
 
 
             this.get("/assessments", async () => {
-  try {
-    return await db.assessments.toArray();
-  } catch (error) {
-    return new Response(500, {}, { error: "Failed to fetch assessments" });
-  }
-});
+                try {
+                    return await db.assessments.toArray();
+                } catch (error) {
+                    return new Response(500, {}, { error: "Failed to fetch assessments" });
+                }
+            });
 
 
             this.post("/candidates", async (_schema, request) => {

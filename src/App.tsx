@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import './App.css';
-import TestFetch from './components/TestFetch';
+import Dashboard from './components/Dashboard';
 import JobsPage from './pages/JobsPage';
 import JobDetailPage from './pages/JobDetailPage';
 import CandidatesPage from './pages/CandidatesPage';
@@ -8,6 +8,7 @@ import CandidateDetailPage from './pages/CandidateDetailPage';
 import AssessmentsPage from './pages/AssessmentsPage';
 import NotFoundPage from './pages/NotFoundPage';
 import { useEffect, useState } from 'react';
+import banner from './assets/banner.png'; // Import the banner image
 
 // Component to display current URL
 const CurrentUrlDisplay = () => {
@@ -33,8 +34,7 @@ const CurrentUrlDisplay = () => {
   );
 };
 
-// New component for the countdown timer
-// New component for the countdown timer
+// Countdown timer component
 const CountdownTimer = () => {
   useEffect(() => {
     const scriptId = 'tickcounter-sdk';
@@ -46,61 +46,61 @@ const CountdownTimer = () => {
     script.async = true;
     document.body.appendChild(script);
 
-    // This is the cleanup function that runs when the component unmounts
     return () => {
       const existingScript = document.getElementById(scriptId);
-      // ✅ FIX: Use the variable by uncommenting this block
       if (existingScript) {
-        // This is good practice to prevent memory leaks if the component unmounts
         existingScript.remove();
       }
     };
-  }, []); // Empty dependency array ensures this effect runs only once
+  }, []);
 
   return (
     <div className="countdown-container">
+      <div className="countdown-header">
+        <span className="countdown-label">⏳ Submission Deadline</span>
+      </div>
       <a
         data-type="countdown"
         data-id="8137274"
         className="tickcounter"
         style={{
           display: 'block',
-          left: 0,
           width: '100%',
-          height: 0,
+          height: '60px',
           position: 'relative',
-          paddingBottom: '25%',
-          margin: '0 auto'
+          margin: '0 auto',
+          textDecoration: 'none'
         }}
-        title="Submission"
+        title="Submission Countdown"
         href="//www.tickcounter.com/"
       >
-        Submission
+        Loading countdown...
       </a>
     </div>
   );
 };
-
 
 function App() {
   return (
     <BrowserRouter>
       <div className="App">
         <header className="App-header">
-          {/* Timer is now first for semantic clarity, but CSS will position it */}
+          {/* Clickable banner in top-right corner */}
+          <Link to="/" className="banner-link">
+            <img src={banner} alt="TalentFlow" className="banner-image" />
+          </Link>
+          
           <CountdownTimer />
-
-          {/* Wrapper for centered title content */}
+          
           <div className="header-content">
-            <h1>TalentFlow - Test Mode</h1>
-            <p>Mock API with Local Persistence (IndexedDB)</p>
+            <h1>TalentFlow</h1>
           </div>
 
           <CurrentUrlDisplay />
 
           <nav className="navigation-buttons">
             <Link to="/" className="nav-button">
-              <button>🏠 Home (Test Fetch)</button>
+              <button>🏠 Dashboard</button>
             </Link>
             <Link to="/jobs" className="nav-button">
               <button>📋 Jobs</button>
@@ -108,59 +108,25 @@ function App() {
             <Link to="/candidates" className="nav-button">
               <button>🧑‍💼 Candidates</button>
             </Link>
-
-            {/* Assessments by Job ID */}
-            <Link to="/assessments/456" className="nav-button">
-              <button>📝 Assessments for Job 456</button>
-            </Link>
-            <Link to="/assessments/789" className="nav-button">
-              <button>📝 Assessments for Job 789</button>
-            </Link>
-            <Link to="/assessments/000" className="nav-button">
-              <button>📝 Assessments for Nonexistent Job</button>
-            </Link>
-
-            {/* Optional: All assessments view */}
             <Link to="/assessments" className="nav-button">
-              <button>📊 All Assessments (if supported)</button>
+              <button>📊 Assessments</button>
             </Link>
-
-            {/* Job and Candidate Detail */}
-            <Link to="/jobs/456" className="nav-button">
-              <button>🔍 View Job 456</button>
-            </Link>
-            <Link to="/candidates/123" className="nav-button">
-              <button>🔎 View Candidate 123</button>
-            </Link>
-
-            {/* 404 Test */}
             <Link to="/invalid-route" className="nav-button">
-              <button>🚫 Test 404 Page</button>
+              <button>🚫 Test 404</button>
             </Link>
           </nav>
-
-
-
         </header>
+        
         <main>
           <Routes>
-            {/* Home */}
-            <Route path="/" element={<TestFetch />} />
-
-            {/* Jobs */}
+            <Route path="/" element={<Dashboard />} />
             <Route path="/jobs" element={<JobsPage />} />
             <Route path="/jobs/:jobId" element={<JobDetailPage />} />
-
-            {/* Candidates */}
             <Route path="/candidates" element={<CandidatesPage />} />
             <Route path="/candidates/:id" element={<CandidateDetailPage />} />
-
-            {/* Assessments */}
             <Route path="/assessments/" element={<AssessmentsPage />} />
-            {/* Fallback */}
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
-
         </main>
       </div>
     </BrowserRouter>
