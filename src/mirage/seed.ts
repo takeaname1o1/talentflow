@@ -83,7 +83,28 @@ export async function seedDatabase() {
         await db.assessments.bulkAdd(assessments);
 
         // Generate Timelines and Responses
-        interface Timeline { id: string; jobId: string; candidateId: string; stage: string; notes: string; timestamp: Date; } interface Response { id: string; candidateId: string; assessmentId: string; answers: Record<string, any>[]; submittedAt: Date; score: number; } // Generate Timelines and Responses const timelines: Timeline[] = []; const responses: Response[] = [];
+        // src/mirage/seed.ts
+
+        interface Timeline {
+            id: string;
+            jobId: string;
+            candidateId: string;
+            stage: string;
+            notes: string;
+            timestamp: Date;
+        }
+
+        interface CandidateResponse { // renamed to avoid DOM collision
+            id: string;
+            candidateId: string;
+            assessmentId: string;
+            answers: Record<string, any>[];
+            submittedAt: Date;
+            score: number;
+        }
+        const timelines: Timeline[] = [];
+        const responses: CandidateResponse[] = [];
+
         const hiringStages = ['Applied', 'Screening', 'Assessment', 'Interview', 'Offer', 'Hired', 'Rejected'];
 
         candidates.forEach(candidate => {
@@ -112,7 +133,7 @@ export async function seedDatabase() {
                                 id: faker.string.uuid(),
                                 candidateId: candidate.id,
                                 assessmentId: assessment.id,
-                                answers: assessment.questions.map((q, idx) => ({ [`q${idx + 1}`]: 'Sample answer' })),
+                                answers: assessment.questions.map((_, idx) => ({ [`q${idx + 1}`]: 'Sample answer' })),
                                 submittedAt: faker.date.soon({ days: 2, refDate: currentTimestamp }),
                                 score: faker.number.int({ min: 65, max: 98 }),
                             });

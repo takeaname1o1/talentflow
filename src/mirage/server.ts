@@ -20,6 +20,22 @@ export function makeServer() {
                 }
             });
 
+            this.get("/jobs/:id", async (_schema, request) => {
+                try {
+                    const id = request.params.id;
+                    const job = await db.jobs.get(id);
+
+                    if (!job) {
+                        return new Response(404, {}, { error: "Job not found" });
+                    }
+
+                    return job;
+                } catch (error) {
+                    return new Response(500, {}, { error: "Failed to fetch job" });
+                }
+            });
+
+
             this.post("/jobs", async (_schema, request) => {
                 try {
                     const attrs = JSON.parse(request.requestBody);
@@ -37,7 +53,7 @@ export function makeServer() {
                 try {
                     const id = request.params.id;
                     const attrs = JSON.parse(request.requestBody);
-                    
+
                     if (Math.random() < 0.07) {
                         return new Response(500, {}, { error: "Random server error" });
                     }
@@ -67,6 +83,22 @@ export function makeServer() {
                     return await db.candidates.toArray();
                 } catch (error) {
                     return new Response(500, {}, { error: "Failed to fetch candidates" });
+                }
+            });
+
+            // ✅ NEW: Get candidate by ID
+            this.get("/candidates/:id", async (_schema, request) => {
+                try {
+                    const id = request.params.id;
+                    const candidate = await db.candidates.get(id);
+
+                    if (!candidate) {
+                        return new Response(404, {}, { error: "Candidate not found" });
+                    }
+
+                    return candidate;
+                } catch (error) {
+                    return new Response(500, {}, { error: "Failed to fetch candidate" });
                 }
             });
 

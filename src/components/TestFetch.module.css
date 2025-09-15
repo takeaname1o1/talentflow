@@ -1,0 +1,179 @@
+.dashboardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.lastUpdated {
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.statsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.statCard {
+    padding: 1rem;
+    border-radius: 8px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+
+.statCard:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-md);
+}
+
+.statNumber {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.statLabel {
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* Optional: icon placeholder above number */
+.statCard::before {
+    content: attr(data-icon);
+    display: block;
+    font-size: 1.5rem;
+    margin-bottom: 0.25rem;
+    opacity: 0.85;
+}
+
+/* Color themes */
+.total { background: #4a90e2; }
+.open { background: #27ae60; }
+.closed { background: #c0392b; }
+.candidates { background: #8e44ad; }
+
+.actions {
+    margin: 1rem 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.primaryBtn,
+.secondaryBtn {
+    padding: 0.6rem 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.primaryBtn {
+    background: #4a90e2;
+    color: white;
+    border: none;
+}
+
+.primaryBtn:hover {
+    background: #3a78c2;
+}
+
+.primaryBtn:active {
+    transform: scale(0.97);
+}
+
+.secondaryBtn {
+    background: #ecf0f1;
+    color: #333;
+    border: none;
+}
+
+.secondaryBtn:hover {
+    background: #d5d9db;
+}
+
+.secondaryBtn:active {
+    transform: scale(0.97);
+}
+
+.list,
+.cardGrid {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cardGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+}
+
+.card {
+    background-color: var(--card-bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-md);
+}
+
+.card::before {
+    content: "";
+    display: block;
+    height: 4px;
+    background-color: var(--primary-color);
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+    margin: -1.5rem -1.5rem 1rem -1.5rem;
+}
+
+.cardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.pagination {
+    margin-top: 2.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.pagination button {
+    padding: 0.75rem 1.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border: none;
+    background-color: var(--primary-color);
+    color: var(--card-bg-color);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.pagination button:hover:not(:disabled) {
+    background-color: #4c51bf;
+}
+
+.pagination button:disabled {
+    background-color: #d1d5db;
+    color: #a0aec0;
+    cursor: not-allowed;
+}
