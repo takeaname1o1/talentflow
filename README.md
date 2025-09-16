@@ -1,69 +1,110 @@
-# React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 📂 **TalentFlow**
 
-Currently, two official plugins are available:
+A mini hiring platform built with **React + TypeScript**, using **Vite**, **MirageJS**, and **Dexie** for API mocking and local persistence. This project simulates job management, candidate tracking, assessments, and timelines — all without a backend.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## Expanding the ESLint configuration
+## ✅ **Features**
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+* Job listing, creation, and editing
+* Candidate profiles and timelines
+* Assessment creation and submission
+* Offline-first with IndexedDB (using Dexie)
+* API mocking with MirageJS
+* Fully responsive UI
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+## 📁 **Project Structure**
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```
+talentflow/
+├── api/                    # API-related mocks or utilities
+├── public/                 # Static assets like images
+├── src/                    # Source files
+│   ├── assets/             # Images and icons
+│   ├── components/         # Reusable UI components
+│   ├── mirage/             # Mock server, local persistence and seed data
+│   ├── pages/              # Application pages/screens
+│   ├── App.tsx             # Main component
+│   ├── main.tsx            # App entry point
+│   ├── index.css           # Global styles
+│   └── vite-env.d.ts       # TypeScript environment declarations
+├── dist/                   # Compiled output
+├── index.html              # Main HTML file
+├── package.json            # Project dependencies
+├── vite.config.ts          # Vite configuration
+├── tsconfig.json           # TypeScript configuration
+└── README.md               # Project documentation
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📦 **Technologies Used**
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+* **React 18 + TypeScript** – Modern, strongly typed UI framework
+* **Vite** – Fast and optimized build tool
+* **MirageJS** – Mock API server for development
+* **Dexie.js** – IndexedDB wrapper for offline data persistence
+* **CSS Modules** – Scoped styling for components and pages
+* **ESLint** – Code linting for consistency and best practices
+
+---
+
+## 🚀 **Getting Started**
+
+### Prerequisites
+
+* Node.js (v16 or later recommended)
+* npm or pnpm
+
+
+
+### Run the Development Server
+
+```bash
+cd talentflow
+chmod +x run.sh
+./run.sh
 ```
+
+The app will be available at `http://localhost:3000`.
+
+
+---
+
+## 📂 **Important Files**
+
+* `src/mirage/server.ts`: Defines the mock API routes and handlers
+* `src/mirage/dexie.ts`: Manages local persistence with IndexedDB
+* `src/pages/`: Contains all the page components like Jobs, Candidates, and Assessments
+* `src/components/Dashboard.tsx`: Dashboard layout and navigation
+* `src/assets/`: Contains static files like images
+
+---
+
+## 📖 **How It Works**
+
+1. **Mock APIs**
+   MirageJS intercepts network requests and provides in-memory API responses.
+
+2. **Offline Data**
+   Dexie.js stores data locally in IndexedDB, ensuring persistence across reloads.
+
+3. **TypeScript**
+   Strong typing helps with code correctness and better developer experience.
+
+---
+
+## 🤝 **Contributing**
+
+Feel free to fork the repository and submit pull requests. Contributions for UI improvements, bug fixes, and new features are welcome.
+
+---
+
+## 📜 **License**
+
+This project is licensed under the MIT License.
+
+---
