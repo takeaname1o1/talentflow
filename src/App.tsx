@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Link, useLocation,NavLink } from 'react-router-dom';
 import './App.css';
 import Dashboard from './components/Dashboard';
 import JobsPage from './pages/JobsPage';
@@ -85,36 +85,25 @@ function App() {
     <BrowserRouter>
       <div className="App">
         <header className="App-header">
-          {/* Clickable banner in top-right corner */}
-          <Link to="/" className="banner-link">
-            <img src={banner} alt="TalentFlow" className="banner-image" />
-          </Link>
+        
           
-          <CountdownTimer />
+       
           
           <div className="header-content">
             <h1>TalentFlow</h1>
           </div>
-
+          <CountdownTimer />
           <CurrentUrlDisplay />
 
-          <nav className="navigation-buttons">
-            <Link to="/" className="nav-button">
-              <button>🏠 Dashboard</button>
-            </Link>
-            <Link to="/jobs" className="nav-button">
-              <button>📋 Jobs</button>
-            </Link>
-            <Link to="/candidates" className="nav-button">
-              <button>🧑‍💼 Candidates</button>
-            </Link>
-            <Link to="/assessments" className="nav-button">
-              <button>📊 Assessments</button>
-            </Link>
-            <Link to="/invalid-route" className="nav-button">
-              <button>🚫 Test 404</button>
-            </Link>
-          </nav>
+    
+
+<nav className="sidebar-nav">
+  <NavLink to="/" className="nav-item">🏠 Dashboard</NavLink>
+  <NavLink to="/jobs" className="nav-item">📋 Jobs</NavLink>
+  <NavLink to="/candidates" className="nav-item">🧑‍💼 Candidates</NavLink>
+  <NavLink to="/assessments" className="nav-item">📊 Assessments</NavLink>
+</nav>
+
         </header>
         
         <main>

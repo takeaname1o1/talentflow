@@ -122,12 +122,19 @@ const JobDetailPage = () => {
 
       <div className={styles.formGroup}>
         <label className={styles.label}>Status</label>
-        <input
+        <select
           value={status}
           onChange={e => setStatus(e.target.value)}
-          className={styles.input}
-        />
+          className={styles.select}
+        >
+          <option value="">Select status</option>
+          <option value="open">Open</option>
+          <option value="in_progress">In Progress</option>
+          <option value="closed">Closed</option>
+          <option value="archived">Archived</option>
+        </select>
       </div>
+
 
       <div className={styles.actions}>
         <button

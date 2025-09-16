@@ -4,6 +4,7 @@ import App from './App.tsx';
 import './index.css';
 import { makeServer } from "./mirage/server";
 import { seedDatabase } from './mirage/seed';
+import './index.css'
 
 // Conditionally start the MirageJS server and seed the database
 // only when the app is running in development mode.

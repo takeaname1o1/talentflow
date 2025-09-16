@@ -1,78 +1,66 @@
-.App {
-  /* This centers header content, but we'll override for main content */
-  text-align: center; 
+/* ==========================================================================
+           GLOBAL STYLES - TalentFlow Application
+           ========================================================================== */
+
+/* ==========================================================================
+           1. Global Styles & CSS Custom Properties - ENHANCED
+           ========================================================================== */
+:root {
+  /* Colors - Enhanced palette for better contrast */
+  --primary-color: #4f46e5;
+  --primary-dark: #4338ca;
+  --secondary-color: #7c3aed;
+  --secondary-dark: #6d28d9;
+  --bg-color: #f8fafc;
+  --card-bg-color: #ffffff;
+  --text-color: #1e293b;
+  --text-color-light: #ffffff;
+  --text-secondary: #64748b;
+  --border-color: #e2e8f0;
+  --success-color: #10b981;
+  --warning-color: #f59e0b;
+  --error-color: #ef4444;
+  --info-color: #3b82f6;
+
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  --font-size-base: 16px;
+  --font-size-h1: 2.5rem;
+  --font-size-h2: 1.8rem;
+  --font-size-h3: 1.5rem;
+  --font-size-p: 1.1rem;
+  --line-height: 1.7;
+
+  /* Sizing & Spacing - More granular scale */
+  --spacing-xs: 0.25rem;
+  /* 4px */
+  --spacing-sm: 0.5rem;
+  /* 8px */
+  --spacing-md: 1rem;
+  /* 16px */
+  --spacing-lg: 1.5rem;
+  /* 24px */
+  --spacing-xl: 2.5rem;
+  /* 40px */
+  --spacing-xxl: 4rem;
+  /* 64px */
+  --content-width: 1200px;
+
+  /* Borders & Shadows - Refined visual elements */
+  --border-radius: 12px;
+  --border-radius-sm: 6px;
+  --box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 5px 10px rgba(0, 0, 0, 0.05);
+  --box-shadow-hover: 0 15px 30px rgba(0, 0, 0, 0.1), 0 5px 15px rgba(0, 0, 0, 0.1);
+  --box-shadow-card: 0 4px 6px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  /* Transitions */
+  --transition-speed: 0.3s ease;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 10vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-  padding: 20px;
-  /* (1) Make the header a positioning context for the timer */
-  position: relative; 
-}
-
-/* (2) Styles to position the timer in the top-right corner */
-.countdown-container {
-  position: absolute;
-  top: 15px;         /* Space from the top */
-  right: 15px;        /* Space from the right */
-  max-width: 250px; /* (3) Makes the timer smaller */
-  width: 100%;
-}
-
-/* (4) Fix for the main content alignment */
-main {
-  max-width: 1000px; /* Set a max-width for your content area */
-  margin: 30px auto; /* Center the main block on the page */
-  padding: 0 20px;
-  text-align: left;  /* Align text *inside* the main block to the left */
-}
-
-/* Other existing styles for navigation, etc. */
-.current-url-display {
-  background-color: rgba(255, 255, 255, 0.1);
-  padding: 8px 15px;
-  border-radius: 8px;
-  margin: 20px 0;
-  font-family: monospace;
-}
-
-.copy-url-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  margin-left: 10px;
-}
-
-.navigation-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  justify-content: center;
-}
-
-.nav-button button {
-  padding: 8px 12px;
-  border-radius: 5px;
-  border: 1px solid #61dafb;
-  background-color: transparent;
-  color: #61dafb;
-  cursor: pointer;
-  transition: background-color 0.2s, color 0.2s;
-}
-
-.nav-button button:hover {
-  background-color: #61dafb;
-  color: #282c34;
-}
-
-/* App.css */
+/* ==========================================================================
+           2. Base & Reset Styles - ENHANCED
+           ========================================================================== */
 * {
   margin: 0;
   padding: 0;
@@ -80,16 +68,28 @@ main {
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: var(--font-family);
+  font-size: var(--font-size-base);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: var(--line-height);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f5f7fa;
-  color: #333;
-  line-height: 1.6;
 }
 
+/* Improved focus styles for accessibility */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* ==========================================================================
+           3. Main Layout: App, Header, Main - ENHANCED
+           ========================================================================== */
 .App {
   min-height: 100vh;
   display: flex;
@@ -97,94 +97,127 @@ body {
 }
 
 .App-header {
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-  color: white;
-  padding: 1.5rem 2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: var(--text-color-light);
+  padding: var(--spacing-xl) var(--spacing-lg);
+  box-shadow: var(--box-shadow);
   position: relative;
-}
-
-/* Banner in top-right corner */
-/* Banner in top-left corner */
-.banner-link {
-  position: absolute;
-  top: 1rem;
-  left: 1.5rem; /* Change from right to left */
-  z-index: 10;
-  transition: transform 0.2s ease;
-}
-.banner-link:hover {
-  transform: scale(1.05);
-}
-
-.banner-image {
-  height: 40px;
-  width: auto;
-  object-fit: contain;
-}
-
-.header-content {
   text-align: center;
-  margin: 1rem 0 1.5rem;
+  width: 135%;
+  margin: 0;
+  left: 0;
+  right: 0;
+}
+
+main {
+  flex: 1;
+  width: 100%;
+  max-width: var(--content-width);
+  margin: 0 auto;
+  padding: var(--spacing-xl);
+  text-align: left;
+}
+
+/* ==========================================================================
+           4. Component Styles - ENHANCED
+           ========================================================================== */
+
+/* Header Content - Improved typography and spacing */
+.header-content {
+  margin-bottom: var(--spacing-xl);
+  position: relative;
+  z-index: 2;
 }
 
 .header-content h1 {
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
+  font-size: var(--font-size-h1);
+  font-weight: 800;
+  margin-bottom: var(--spacing-md);
+  letter-spacing: -0.5px;
 }
 
 .header-content p {
-  font-size: 1rem;
-  opacity: 0.9;
+  font-size: var(--font-size-p);
+  opacity: 0.95;
+  max-width: 700px;
+  margin: 0 auto;
+  font-weight: 400;
 }
 
-.countdown-container {
-  max-width: 300px;
-  margin: 0 auto 1.5rem;
+/* Top Corner Elements - Better positioning */
+.header-corner-link {
+  position: absolute;
+  top: var(--spacing-md);
+  left: var(--spacing-lg);
+  z-index: 10;
+  transition: all var(--transition-speed);
 }
 
+.header-corner-link:hover {
+  transform: translateY(-2px);
+}
+
+.header-corner-image {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+  border-radius: var(--border-radius-sm);
+}
+
+/* URL Display & Copy Button - Improved visual design */
 .current-url-display {
   display: flex;
   align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.1);
-  padding: 0.75rem 1rem;
-  border-radius: 8px;
-  margin: 1rem auto;
-  max-width: 600px;
-  font-size: 0.9rem;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.15);
+  padding: var(--spacing-sm) var(--spacing-md);
+  border-radius: var(--border-radius);
+  margin: var(--spacing-xl) auto 0;
+  max-width: 700px;
+  font-size: 0.95rem;
   backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .current-url-display code {
-  margin: 0 0.75rem;
+  margin: 0 var(--spacing-sm);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  flex: 1;
+  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
 }
 
 .copy-url-btn {
-  background: none;
+  background: rgba(255, 255, 255, 0.2);
   border: none;
-  color: white;
+  color: var(--text-color-light);
   cursor: pointer;
   font-size: 1rem;
-  padding: 0.25rem;
-  border-radius: 4px;
-  transition: background 0.2s;
+  padding: 0.5rem;
+  border-radius: var(--border-radius-sm);
+  transition: all var(--transition-speed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .copy-url-btn:hover {
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-1px);
 }
 
+.copy-url-btn.copied {
+  background-color: var(--success-color);
+}
+
+/* Navigation Buttons - More visually appealing */
 .navigation-buttons {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 0.75rem;
-  margin-top: 1.5rem;
+  gap: var(--spacing-md);
+  margin-top: var(--spacing-xl);
 }
 
 .nav-button {
@@ -192,98 +225,587 @@ body {
 }
 
 .nav-button button {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.2);
   border: none;
-  color: white;
-  padding: 0.75rem 1.25rem;
-  border-radius: 8px;
+  color: var(--text-color-light);
+  padding: 0.875rem 1.5rem;
+  border-radius: var(--border-radius);
   cursor: pointer;
-  font-weight: 500;
-  transition: all 0.2s ease;
+  font-weight: 600;
+  transition: all var(--transition-speed);
   backdrop-filter: blur(10px);
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: var(--spacing-sm);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-button button:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-3px);
+  box-shadow: var(--box-shadow-hover);
+}
+
+/* ==========================================================================
+           5. TalentFlow Specific Components
+           ========================================================================== */
+
+/* Card Components */
+.card {
+  background: var(--card-bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-card);
+  padding: var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  border: 1px solid var(--border-color);
+  transition: all var(--transition-speed);
+
+  /* Added width enhancements */
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.card:hover {
+  box-shadow: var(--box-shadow-hover);
   transform: translateY(-2px);
 }
 
-main {
-  flex: 1;
-  padding: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  width: 100%;
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--spacing-md);
+  padding-bottom: var(--spacing-sm);
+  border-bottom: 1px solid var(--border-color);
 }
 
-/* Responsive design */
+.card-title {
+  font-size: var(--font-size-h3);
+  font-weight: 600;
+  color: var(--text-color);
+  margin: 0;
+}
+
+/* Form Elements */
+.form-group {
+  margin-bottom: var(--spacing-lg);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: var(--spacing-sm);
+  font-weight: 500;
+  color: var(--text-color);
+}
+
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: var(--spacing-md);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius-sm);
+  font-size: var(--font-size-base);
+  transition: all var(--transition-speed);
+  background-color: white;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.form-textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: var(--font-size-base);
+  font-weight: 500;
+  border-radius: var(--border-radius);
+  border: none;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+  text-decoration: none;
+  gap: var(--spacing-sm);
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: var(--secondary-color);
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: var(--secondary-dark);
+  transform: translateY(-2px);
+}
+
+.btn-success {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.btn-warning {
+  background-color: var(--warning-color);
+  color: white;
+}
+
+.btn-error {
+  background-color: var(--error-color);
+  color: white;
+}
+
+.btn-outline {
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-color);
+}
+
+.btn-outline:hover {
+  background-color: var(--bg-color);
+}
+
+/* Table Styles */
+.table-container {
+  background: var(--card-bg-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow-card);
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: var(--spacing-md);
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.table th {
+  background-color: var(--bg-color);
+  font-weight: 600;
+  color: var(--text-color);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.table tr:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+/* Status Badges */
+.badge {
+  display: inline-block;
+  padding: 0.25rem 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: 9999px;
+}
+
+.badge-success {
+  background-color: #dcfce7;
+  color: #166534;
+}
+
+.badge-warning {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.badge-error {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.badge-info {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+/* ==========================================================================
+           6. Animations
+           ========================================================================== */
+
+/* Add subtle animation to header elements */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.header-content h1 {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+.header-content p {
+  animation: fadeInUp 0.6s ease-out 0.1s both;
+}
+
+.current-url-display {
+  animation: fadeInUp 0.6s ease-out 0.2s both;
+}
+
+.navigation-buttons {
+  animation: fadeInUp 0.6s ease-out 0.3s both;
+}
+
+/* Loading animation */
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner {
+  animation: spin 1s linear infinite;
+}
+
+/* ==========================================================================
+           7. Responsive Design - ENHANCED
+           ========================================================================== */
+
+/* Medium screens (tablets) */
 @media (max-width: 768px) {
-  .App-header {
-    padding: 1rem;
+  :root {
+    --font-size-h1: 2rem;
+    --font-size-p: 1.05rem;
   }
-  
-  .banner-link {
-    top: 0.5rem;
-    right: 0.5rem;
-  }
-  
-  .banner-image {
-    height: 35px;
-  }
-  
-  .header-content h1 {
-    font-size: 1.8rem;
-  }
-  
-  .navigation-buttons {
-    gap: 0.5rem;
-  }
-  
-  .nav-button button {
-    padding: 0.6rem 1rem;
-    font-size: 0.9rem;
-  }
-  
+
+  .App-header,
   main {
-    padding: 1rem;
+    padding: var(--spacing-lg) var(--spacing-md);
   }
-  
+
+  .header-corner-link {
+    top: var(--spacing-md);
+    left: var(--spacing-md);
+  }
+
+  .header-corner-image {
+    height: 38px;
+  }
+
   .current-url-display {
     flex-direction: column;
-    gap: 0.5rem;
+    gap: var(--spacing-sm);
     text-align: center;
+    padding: var(--spacing-md);
+  }
+
+  .current-url-display code {
+    margin: 0;
+    width: 100%;
+  }
+
+  .card {
+    padding: var(--spacing-md);
+  }
+
+  .table th,
+  .table td {
+    padding: var(--spacing-sm);
   }
 }
 
+/* Small screens (mobile) */
 @media (max-width: 480px) {
+  :root {
+    --font-size-h1: 1.8rem;
+    --font-size-p: 1rem;
+    --spacing-xl: 2rem;
+  }
+
+  .header-content h1 {
+    margin-top: var(--spacing-xl);
+  }
+
   .navigation-buttons {
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
+    gap: var(--spacing-sm);
   }
-  
-  .nav-button {
-    width: 100%;
-  }
-  
+
   .nav-button button {
     width: 100%;
     justify-content: center;
+    padding: 0.875rem 1rem;
   }
-  
-  .banner-image {
-    height: 30px;
+
+  .header-corner-image {
+    height: 34px;
   }
-  
-  .header-content h1 {
-    font-size: 1.6rem;
-    margin-top: 1.5rem;
+
+  .header-corner-link {
+    top: var(--spacing-sm);
+    left: var(--spacing-md);
   }
-  
-  .header-content p {
-    font-size: 0.9rem;
+
+  .btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .table-container {
+    overflow-x: auto;
   }
 }
 
+.tickcounter {
+  pointer-events: none;
+}
+
+/* ==========================================================================
+           JobsPage Specific Styles
+           ========================================================================== */
+
+/* 1. Filters Bar
+           ========================================================================== */
+.filters-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+  padding: var(--spacing-lg);
+  background-color: var(--bg-color);
+  border-bottom: 1px solid var(--border-color);
+  margin: 0 calc(-1 * var(--spacing-lg));
+  margin-top: calc(-1 * var(--spacing-md));
+}
+
+/* Make filter inputs flexible */
+.filters-bar .form-input,
+.filters-bar .form-select {
+  flex: 1;
+  min-width: 150px;
+}
+
+.filters-bar .btn {
+  flex-shrink: 0;
+}
+
+/* 2. View Layouts (List & Grid)
+           ========================================================================== */
+.list-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-md);
+}
+
+.grid-view {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+/* 3. Job Item Styling (Shared & View-Specific)
+           ========================================================================== */
+
+/* Shared link styles */
+.job-item-link {
+  display: flex;
+  flex-direction: column;
+  text-decoration: none;
+  color: var(--text-color);
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--box-shadow-card);
+  transition: all var(--transition-speed);
+}
+
+.job-item-link:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--box-shadow-hover);
+  border-color: var(--primary-color);
+}
+
+/* Header inside each job item */
+.job-item-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+
+.job-item-header h3 {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+/* Body and Footer inside each job item */
+.job-item-body {
+  flex-grow: 1;
+  margin-bottom: var(--spacing-md);
+}
+
+.job-item-body .text-secondary {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.job-item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  border-top: 1px solid var(--border-color);
+  padding-top: var(--spacing-sm);
+  margin-top: auto;
+}
+
+/* 4. Pagination and Alerts
+           ========================================================================== */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding-top: var(--spacing-md);
+}
+
+.pagination-text {
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.alert {
+  padding: var(--spacing-md) var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  border-radius: var(--border-radius-sm);
+  background-color: var(--bg-color);
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.alert-danger {
+  background-color: #fee2e2;
+  color: #991b1b;
+  border-color: #fecaca;
+}
+
+/* 5. Responsive Adjustments
+           ========================================================================== */
+@media (max-width: 768px) {
+  .filters-bar {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+
+/* Styling for the new Job Item layout */
+.job-item-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--card-bg-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-lg);
+  box-shadow: var(--box-shadow-card);
+  transition: all var(--transition-speed);
+}
+
+.job-item-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--box-shadow-hover);
+  border-color: var(--primary-color);
+}
+
+/* Make the title link clean */
+.job-item-title-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.job-item-title-link:hover h3 {
+  color: var(--primary-color);
+}
+
+/* Layout for the footer containing meta info and buttons */
+.job-item-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+  border-top: 1px solid var(--border-color);
+  padding-top: var(--spacing-md);
+  margin-top: auto;
+}
+
+.job-item-meta {
+  display: flex;
+  flex-direction: column;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  gap: var(--spacing-xs);
+}
+
+.job-item-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-shrink: 0;
+}
+
+/* Small button variant */
+.btn-sm {
+  padding: 0.375rem 0.875rem;
+  font-size: 0.875rem;
+}
+
+/* Adjust danger button style for better visibility */
+.btn-danger {
+  background-color: var(--error-color);
+  color: white;
+}
+
+.btn-danger:hover {
+  opacity: 0.85;
+}
+
+.select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}

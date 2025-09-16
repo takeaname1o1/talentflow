@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import styles from './JobsPage.module.css' // or create CandidateDetailPage.module.css
-
 export interface Candidate {
   id: string
   name: string
