@@ -75,7 +75,6 @@ const CandidatesPage = () => {
 
   return (
     <div className={styles.container}>
-      <h1 className={styles.heading}>Candidates</h1>
 
       <section className={styles.filters}>
         <input

@@ -62,7 +62,6 @@ const AssessmentsPage = () => {
 
   return (
     <div className={styles.container}>
-      <h1>Assessments Page</h1>
 
       {/* Filters */}
       <div className={styles.filters}>

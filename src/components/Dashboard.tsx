@@ -228,9 +228,7 @@ export default function Dashboard() {
 
   return (
     <div className={styles.dashboard}>
-      <header>
-        <h2 className={styles.title}>Dashboard Overview</h2>
-      </header>
+
 
       <main className={styles.chartsContainer}>
         <DashboardCard title="Totals Breakdown">

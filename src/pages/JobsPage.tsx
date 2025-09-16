@@ -79,8 +79,6 @@ const JobsPage = () => {
 
   return (
     <div className={styles.container}>
-      <h1>Jobs Page</h1>
-
       {/* Filters */}
       <div className={styles.filters}>
         <input
